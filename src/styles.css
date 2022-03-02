@@ -10,3 +10,10 @@
   font-size: 2rem;
   color: darkcyan;
 }
+
+.address-card {
+  padding: 1rem;
+  margin: 1rem auto;
+  border: 1px solid darkcyan;
+  border-radius: 5px;
+}
