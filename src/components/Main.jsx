@@ -2,6 +2,7 @@ import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useEffect, useState } from "react";
 import { AddressCard } from "./AddressCard";
+import { AddressForm } from "./AddressForm";
 
 export const Main = () => {
   const [addresses, setAddresses] = useState([]);
@@ -23,15 +24,35 @@ export const Main = () => {
     })();
   }, []);
 
+  const submitHandler = async (e, formData, resetForm) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const { data, status } = await axios.post(
+        "https://621f95f2ce99a7de19422461.mockapi.io/addresses",
+        formData
+      );
+      if (status === 201) {
+        setAddresses((prevAddresses) => [...prevAddresses, data]);
+        resetForm();
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <main>
-      {error && <p>{error}</p>}
+      <AddressForm submitHandler={submitHandler} />
       <ClipLoader
         color="darkcyan"
         loading={isLoading}
         size={10}
         speedMultiplier={2}
       />
+      {error && <p>{error}</p>}
       <div>
         {addresses.map((addressData) => {
           return <AddressCard address={addressData} key={addressData.id} />;
