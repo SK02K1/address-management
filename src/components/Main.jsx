@@ -43,6 +43,24 @@ export const Main = () => {
     }
   };
 
+  const deleteHandler = async (id) => {
+    setIsLoading(true);
+    try {
+      const { status } = await axios.delete(
+        `https://621f95f2ce99a7de19422461.mockapi.io/addresses/${id}`
+      );
+      if (status === 200) {
+        setAddresses((prevAddresses) =>
+          prevAddresses.filter(({ id: uid }) => uid !== id)
+        );
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <main>
       <AddressForm submitHandler={submitHandler} />
@@ -55,7 +73,13 @@ export const Main = () => {
       {error && <p>{error}</p>}
       <div>
         {addresses.map((addressData) => {
-          return <AddressCard address={addressData} key={addressData.id} />;
+          return (
+            <AddressCard
+              address={addressData}
+              handleDelete={deleteHandler}
+              key={addressData.id}
+            />
+          );
         })}
       </div>
     </main>

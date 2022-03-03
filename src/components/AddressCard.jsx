@@ -1,4 +1,5 @@
 export const AddressCard = ({
+  handleDelete,
   address: { id, name, phone, country, state, city, street }
 }) => {
   return (
@@ -9,6 +10,7 @@ export const AddressCard = ({
       <div>state: {state}</div>
       <div>city: {city}</div>
       <div>street {street}</div>
+      <button onClick={() => handleDelete(id)}>Delete</button>
     </div>
   );
 };
