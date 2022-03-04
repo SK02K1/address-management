@@ -102,6 +102,7 @@ export const Main = () => {
 
   const resetForm = () => {
     setFormData(defaultFormData);
+    setIsEditStateActive(false);
   };
 
   return (
@@ -111,7 +112,7 @@ export const Main = () => {
         handleUpdate={updateHandler}
         formData={formData}
         setFormData={setFormData}
-        resetForm={resetForm}
+        handleReset={resetForm}
         editState={isEditStateActive}
       />
       <ClipLoader

@@ -1,6 +1,7 @@
 export const AddressForm = ({
   formData,
   handleUpdate,
+  handleReset,
   setFormData,
   submitHandler,
   editState
@@ -77,6 +78,9 @@ export const AddressForm = ({
       <button disabled={editState}>Add</button>
       <button type="button" onClick={handleUpdate} disabled={!editState}>
         Update details
+      </button>
+      <button type="reset" onClick={handleReset}>
+        Reset
       </button>
     </form>
   );
