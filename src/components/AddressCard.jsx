@@ -1,16 +1,27 @@
-export const AddressCard = ({
-  handleDelete,
-  address: { id, name, phone, country, state, city, street }
-}) => {
+export const AddressCard = ({ handleDelete, handleEdit, address }) => {
+  const { id, name, phone, country, state, city, street } = address;
   return (
     <div className="address-card">
-      <div>name: {name}</div>
-      <div>phone: {phone}</div>
-      <div>country: {country}</div>
-      <div>state: {state}</div>
-      <div>city: {city}</div>
-      <div>street {street}</div>
+      <div>
+        <span className="text-highlight">name</span>: {name}
+      </div>
+      <div>
+        <span className="text-highlight">phone</span>: {phone}
+      </div>
+      <div>
+        <span className="text-highlight">country</span>: {country}
+      </div>
+      <div>
+        <span className="text-highlight">state</span>: {state}
+      </div>
+      <div>
+        <span className="text-highlight">city</span>: {city}
+      </div>
+      <div>
+        <span className="text-highlight">street</span>: {street}
+      </div>
       <button onClick={() => handleDelete(id)}>Delete</button>
+      <button onClick={() => handleEdit(address)}>edit</button>
     </div>
   );
 };

@@ -1,17 +1,10 @@
-import { useState } from "react";
-
-const defaultFormData = {
-  name: "",
-  phone: "",
-  country: "",
-  state: "",
-  city: "",
-  street: ""
-};
-
-export const AddressForm = ({ submitHandler }) => {
-  const [formData, setFormData] = useState(defaultFormData);
-
+export const AddressForm = ({
+  formData,
+  handleUpdate,
+  setFormData,
+  submitHandler,
+  editState
+}) => {
   const changeHandler = (e) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -19,15 +12,8 @@ export const AddressForm = ({ submitHandler }) => {
     }));
   };
 
-  const resetForm = () => {
-    setFormData(defaultFormData);
-  };
-
   return (
-    <form
-      className="address-form"
-      onSubmit={(e) => submitHandler(e, formData, resetForm)}
-    >
+    <form className="address-form" onSubmit={(e) => submitHandler(e, formData)}>
       <label htmlFor="name">Name</label>
       <input
         onChange={changeHandler}
@@ -88,7 +74,10 @@ export const AddressForm = ({ submitHandler }) => {
         placeholder="Enter you street"
         required
       />
-      <button>Add</button>
+      <button disabled={editState}>Add</button>
+      <button type="button" onClick={handleUpdate} disabled={!editState}>
+        Update details
+      </button>
     </form>
   );
 };

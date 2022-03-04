@@ -4,10 +4,21 @@ import { useEffect, useState } from "react";
 import { AddressCard } from "./AddressCard";
 import { AddressForm } from "./AddressForm";
 
+const defaultFormData = {
+  name: "",
+  phone: "",
+  country: "",
+  state: "",
+  city: "",
+  street: ""
+};
+
 export const Main = () => {
   const [addresses, setAddresses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [formData, setFormData] = useState(defaultFormData);
+  const [isEditStateActive, setIsEditStateActive] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -24,7 +35,7 @@ export const Main = () => {
     })();
   }, []);
 
-  const submitHandler = async (e, formData, resetForm) => {
+  const submitHandler = async (e, formData) => {
     e.preventDefault();
     setIsLoading(true);
     try {
@@ -61,9 +72,48 @@ export const Main = () => {
     }
   };
 
+  const updateHandler = async () => {
+    setIsLoading(true);
+    try {
+      const { status, data } = await axios.put(
+        `https://621f95f2ce99a7de19422461.mockapi.io/addresses/${formData.id}`,
+        formData
+      );
+      if (status === 200) {
+        setFormData(defaultFormData);
+        setIsEditStateActive(false);
+        setAddresses((prevAddresses) =>
+          prevAddresses.map((address) =>
+            address.id === data.id ? data : address
+          )
+        );
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const editHandler = (address) => {
+    setFormData(address);
+    setIsEditStateActive(true);
+  };
+
+  const resetForm = () => {
+    setFormData(defaultFormData);
+  };
+
   return (
     <main>
-      <AddressForm submitHandler={submitHandler} />
+      <AddressForm
+        submitHandler={submitHandler}
+        handleUpdate={updateHandler}
+        formData={formData}
+        setFormData={setFormData}
+        resetForm={resetForm}
+        editState={isEditStateActive}
+      />
       <ClipLoader
         color="darkcyan"
         loading={isLoading}
@@ -77,6 +127,7 @@ export const Main = () => {
             <AddressCard
               address={addressData}
               handleDelete={deleteHandler}
+              handleEdit={editHandler}
               key={addressData.id}
             />
           );

@@ -5,6 +5,11 @@
   text-align: center;
 }
 
+.text-highlight {
+  color: darkcyan;
+  font-weight: 600;
+}
+
 .address-form {
   display: inline-flex;
   flex-direction: column;
